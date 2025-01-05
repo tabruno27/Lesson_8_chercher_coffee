@@ -44,10 +44,6 @@ def main():
         coffee_longitude = coffee['Longitude_WGS84']
         coffee_latitude = coffee['Latitude_WGS84']
 
-
-        coffee_coords = (coffee_longitude, coffee_latitude)  # Широта, Долгота
-        dist = distance.distance(coords, coffee_coords).km  # Расстояние в километрах
-
         coffee_coords = (coffee_latitude, coffee_longitude)
         dist = distance.distance(coffee_coords, map_center).km
 
