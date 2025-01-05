@@ -5,8 +5,6 @@ from dotenv import load_dotenv
 from geopy import distance
 import folium
 
-load_dotenv()
-API_KEY = os.getenv('API_KEY')
 
 def fetch_coordinates(apikey, address):
     base_url = "https://geocode-maps.yandex.ru/1.x"
@@ -34,16 +32,25 @@ def main():
 
     new_coffee_data = []
 
+    load_dotenv()
+    API_KEY = os.getenv('API_KEY')
+
     city_user = input('Где вы находитесь? ')
     coords = fetch_coordinates(API_KEY, city_user)
+    map_center = (coords[1], coords[0])
 
     for coffee in coffee:
         coffee_name = coffee['Name']
         coffee_longitude = coffee['Longitude_WGS84']
         coffee_latitude = coffee['Latitude_WGS84']
 
-        coffee_coords = (coffee_longitude, coffee_latitude)
-        dist = distance.distance(coords, coffee_coords).km
+<<<<<<< Updated upstream
+        coffee_coords = (coffee_longitude, coffee_latitude)  # Широта, Долгота
+        dist = distance.distance(coords, coffee_coords).km  # Расстояние в километрах
+=======
+        coffee_coords = (coffee_latitude, coffee_longitude)
+        dist = distance.distance(coffee_coords, map_center).km
+>>>>>>> Stashed changes
 
         data_coffee_new = {
             'Name': coffee_name,
@@ -55,7 +62,6 @@ def main():
 
     five_coffee = sorted(new_coffee_data, key=lambda x: x['Distance_to_User_km'])[:5]
 
-    map_center = (coords[1], coords[0])  # Широта, Долгота
     coffee_map = folium.Map(location=map_center, zoom_start=14)
 
     for coffee in five_coffee:
