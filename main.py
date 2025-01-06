@@ -22,8 +22,11 @@ def fetch_coordinates(apikey, address):
     most_relevant = found_places[0]
     lon, lat = most_relevant['GeoObject']['Point']['pos'].split(" ")
     return float(lon), float(lat)
+
+
 def get_user_posts(new_coffee_data):
     return new_coffee_data['Distance_to_User_km']
+
 
 def main():
     with open("coffee.json", "r", encoding="CP1251") as my_file:
@@ -33,10 +36,10 @@ def main():
     new_coffee_data = []
 
     load_dotenv()
-    API_KEY = os.getenv('API_KEY')
+    api_key = os.getenv('API_KEY')
 
     city_user = input('Где вы находитесь? ')
-    coords = fetch_coordinates(API_KEY, city_user)
+    coords = fetch_coordinates(api_key, city_user)
     map_center = (coords[1], coords[0])
 
     for coffee in coffee:
@@ -46,7 +49,6 @@ def main():
 
         coffee_coords = (coffee_latitude, coffee_longitude)
         dist = distance.distance(coffee_coords, map_center).km
-
 
         data_coffee_new = {
             'Name': coffee_name,
@@ -71,4 +73,4 @@ def main():
 
 
 if __name__ == '__main__':
-   main()
+    main()
